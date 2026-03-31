@@ -22,7 +22,7 @@ namespace sweetshops.Pages.Desserts
         {
             Dish = _context.Dishes
                         .Where(c => c.Id == id)
-                        .Include(b => b.CategoriesDish)
+                        .Include(b => b.GroupDish)
                         .FirstOrDefault();
 
             if (Dish == null)
