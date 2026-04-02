@@ -1,0 +1,16 @@
+﻿@page
+@model sweetshops.Pages.Clients.DetailsModel
+@{
+}
+<h1>Информация о клиенте</h1>
+
+<div>
+    <p><strong>ФИО:</strong> @Model.Client.LastName</p>
+    <p><strong>Телефон:</strong> @Model.Client.Phone</p>
+    <p><strong>Номер столика:</strong> @Model.Client.NumberOrder</p>
+    <p><strong>Дата посещения:</strong> @Model.Client.VisitDate.ToShortDateString()</p>
+</div>
+
+<p>
+    <a asp-page="Index">Назад к списку</a>
+</p>
