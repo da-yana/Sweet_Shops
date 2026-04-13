@@ -15,7 +15,7 @@ namespace sweetshops.Pages.Desserts
             _context = context;
         }
 
-        public Dish Dish { get; set; }
+        public Dish? Dish { get; set; }
 
         public IActionResult OnGet(int id)
         {

@@ -16,7 +16,7 @@ namespace sweetshops.Pages.Desserts
         }
 
         [BindProperty]
-        public Dish Dish { get; set; }
+        public Dish? Dish { get; set; }
 
         public IActionResult OnGet(int id)
         {
