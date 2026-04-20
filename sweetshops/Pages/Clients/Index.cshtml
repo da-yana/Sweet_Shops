@@ -2,37 +2,159 @@
 @model sweetshops.Pages.Clients.IndexModel
 @{
 }
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<h1>Список клиентов</h1>
+<div class="container mt-4">
+    <!-- Заголовок и кнопка добавления -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-5 fw-bold text-primary">
+            <i class="bi bi-people-fill"></i> Список клиентов
+        </h1>
+        <a asp-page="Create" class="btn btn-success btn-lg">
+            <i class="bi bi-person-plus"></i> Добавить клиента
+        </a>
+    </div>
 
-<p>
-    <a asp-page="Create">Добавить клиента</a>
-</p>
+    @if (!Model.Clients.Any())
+    {
+        <!-- Пустое состояние -->
+        <div class="alert alert-info text-center p-5" role="alert">
+            <i class="bi bi-emoji-frown fs-1"></i>
+            <h4 class="alert-heading mt-3">Нет клиентов</h4>
+            <p>В базе данных пока нет клиентов. Нажмите кнопку "Добавить клиента", чтобы создать первую запись.</p>
+            <hr>
+            <a asp-page="Create" class="btn btn-primary">
+                <i class="bi bi-person-plus"></i> Добавить первого клиента
+            </a>
+        </div>
+    }
+    else
+    {
+        <!-- Карточки клиентов -->
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            @foreach (var client in Model.Clients)
+            {
+                <div class="col">
+                    <div class="card h-100 shadow-sm hover-shadow transition border-0 rounded-4">
+                        <!-- Карточка клиента -->
+                        <div class="card-header bg-primary text-white rounded-top-4 py-3">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-person-circle fs-3 me-2"></i>
+                                <h5 class="card-title mb-0 fw-bold">@client.LastName</h5>
+                            </div>
+                        </div>
 
-<table border="1" cellpadding="5">
-    <thead>
-        <tr>
-            <th>ФИО</th>
-            <th>Телефон</th>
-            <th>Номер столика</th>
-            <th>Дата посещения</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var clients in Model.Clients)
-        {
-            <tr>
-                <td>@clients.LastName</td>
-                <td>@clients.Phone</td>
-                <td>@clients.NumberOrder</td>
-                <td>@clients.VisitDate.ToShortDateString()</td>
-                <td>
-                    <a asp-page="Details" asp-route-id="@clients.Id">Открыть</a>
-                    <a asp-page="Edit" asp-route-id="@clients.Id">Изменить</a>
-                    <a asp-page="Delete" asp-route-id="@clients.Id">Удалить</a>
-                </td>
-            </tr>
+                        <div class="card-body">
+                            <!-- Телефон -->
+                            <div class="mb-3">
+                                <div class="d-flex align-items-center text-muted mb-1">
+                                    <i class="bi bi-telephone-fill me-2"></i>
+                                    <small>Телефон</small>
+                                </div>
+                                <strong>@client.Phone</strong>
+                            </div>
+
+                            <!-- Номер столика -->
+                            <div class="mb-3">
+                                <div class="d-flex align-items-center text-muted mb-1">
+                                    <i class="bi bi-table me-2"></i>
+                                    <small>Номер столика</small>
+                                </div>
+                                <span class="badge bg-success fs-6">№@client.NumberOrder</span>
+                            </div>
+
+                            <!-- Дата посещения -->
+                            <div class="mb-3">
+                                <div class="d-flex align-items-center text-muted mb-1">
+                                    <i class="bi bi-calendar-event me-2"></i>
+                                    <small>Дата посещения</small>
+                                </div>
+                                <strong class="text-primary">@client.VisitDate.ToString("dd.MM.yyyy")</strong>
+                            </div>
+
+                            <!-- ID клиента -->
+                            <div class="mt-3 pt-2 border-top">
+                                <small class="text-muted">
+                                    <i class="bi bi-hash"></i> ID: @client.Id
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="card-footer bg-white border-top-0 pb-3">
+                            <div class="d-flex justify-content-between gap-2">
+                                <a asp-page="Details" asp-route-id="@client.Id"
+                                   class="btn btn-outline-primary btn-sm flex-fill">
+                                    <i class="bi bi-eye"></i> Открыть
+                                </a>
+                                <a asp-page="Edit" asp-route-id="@client.Id"
+                                   class="btn btn-outline-warning btn-sm flex-fill">
+                                    <i class="bi bi-pencil"></i> Изменить
+                                </a>
+                                <a asp-page="Delete" asp-route-id="@client.Id"
+                                   class="btn btn-outline-danger btn-sm flex-fill">
+                                    <i class="bi bi-trash"></i> Удалить
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+<style>
+    /* Кастомные стили */
+    .hover-shadow {
+        transition: all 0.3s ease;
+    }
+
+        .hover-shadow:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15) !important;
         }
-    </tbody>
-</table>
+
+    .transition {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card {
+        overflow: hidden;
+    }
+
+    .card-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .btn {
+        transition: all 0.2s ease;
+    }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(0.98);
+        }
+
+    .btn-outline-primary:hover {
+        background-color: #0d6efd;
+        color: white;
+    }
+
+    .btn-outline-warning:hover {
+        background-color: #ffc107;
+        color: black;
+    }
+
+    .btn-outline-danger:hover {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    /* Анимация появления карточек */
+    .card {
+        animation: fadeInUp 0.5s ease;
+    }
+</style>
