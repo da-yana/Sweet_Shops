@@ -21,7 +21,6 @@ namespace sweetshops.Pages.Desserts
             Dishs = _context.Dishes
                 .Include(b => b.GroupDish)
                 .ToList();
-
         }
     }
 }
