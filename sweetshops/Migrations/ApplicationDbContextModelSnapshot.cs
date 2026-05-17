@@ -70,6 +70,9 @@ namespace sweetshops.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("DishsId")
+                        .HasColumnType("int");
+
                     b.Property<int>("GroupDishId")
                         .HasColumnType("int");
 
@@ -83,7 +86,13 @@ namespace sweetshops.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("DishsId");
 
                     b.HasIndex("GroupDishId");
 
@@ -108,11 +117,19 @@ namespace sweetshops.Migrations
 
             modelBuilder.Entity("sweetshops.Model.Dish", b =>
                 {
+                    b.HasOne("sweetshops.Model.Dish", "Dishs")
+                        .WithMany()
+                        .HasForeignKey("DishsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("sweetshops.Model.GroupDish", "GroupDish")
                         .WithMany("Dishs")
                         .HasForeignKey("GroupDishId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Dishs");
 
                     b.Navigation("GroupDish");
                 });

@@ -12,8 +12,8 @@ using sweetshops.Data;
 namespace sweetshops.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260420060223_groupdishes")]
-    partial class groupdishes
+    [Migration("20260517193107_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,6 +34,7 @@ namespace sweetshops.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -101,11 +102,29 @@ namespace sweetshops.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("DishsGroup");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Мучное"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Сладкое"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Мясное"
+                        });
                 });
 
             modelBuilder.Entity("sweetshops.Model.Dish", b =>

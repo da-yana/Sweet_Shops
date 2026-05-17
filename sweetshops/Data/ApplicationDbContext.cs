@@ -5,6 +5,8 @@ namespace sweetshops.Data
 {
     public class ApplicationDbContext : DbContext
     {
+
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
         {
@@ -14,5 +16,8 @@ namespace sweetshops.Data
         public DbSet<Dish> Dishes { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<GroupDish> DishsGroup { get; set; }
+      
     }
+
+
 }
