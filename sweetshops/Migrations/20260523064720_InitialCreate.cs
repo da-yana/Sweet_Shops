@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace sweetshops.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -31,16 +31,16 @@ namespace sweetshops.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DishsGroup",
+                name: "GroupDishes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DishsGroup", x => x.Id);
+                    table.PrimaryKey("PK_GroupDishes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -49,39 +49,51 @@ namespace sweetshops.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    GroupDishId = table.Column<int>(type: "int", nullable: false),
                     DishName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     DescriptionDish = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Ingredients = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CookingTimeMinutes = table.Column<int>(type: "int", nullable: false),
+                    GroupDishId = table.Column<int>(type: "int", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GroupDishId1 = table.Column<int>(type: "int", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Dishes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Dishes_DishsGroup_GroupDishId",
+                        name: "FK_Dishes_GroupDishes_GroupDishId",
                         column: x => x.GroupDishId,
-                        principalTable: "DishsGroup",
+                        principalTable: "GroupDishes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Dishes_GroupDishes_GroupDishId1",
+                        column: x => x.GroupDishId1,
+                        principalTable: "GroupDishes",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.InsertData(
-                table: "DishsGroup",
+                table: "GroupDishes",
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Мучное" },
-                    { 2, "Сладкое" },
-                    { 3, "Мясное" }
+                    { 1, "Сладкое" },
+                    { 2, "Мясное" },
+                    { 3, "Мучное" }
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Dishes_GroupDishId",
                 table: "Dishes",
                 column: "GroupDishId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Dishes_GroupDishId1",
+                table: "Dishes",
+                column: "GroupDishId1");
         }
 
         /// <inheritdoc />
@@ -94,7 +106,7 @@ namespace sweetshops.Migrations
                 name: "Dishes");
 
             migrationBuilder.DropTable(
-                name: "DishsGroup");
+                name: "GroupDishes");
         }
     }
 }

@@ -12,8 +12,8 @@ using sweetshops.Data;
 namespace sweetshops.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260517193107_Initial")]
-    partial class Initial
+    [Migration("20260523064720_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,6 +76,9 @@ namespace sweetshops.Migrations
                     b.Property<int>("GroupDishId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("GroupDishId1")
+                        .HasColumnType("int");
+
                     b.Property<string>("Ingredients")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -86,9 +89,14 @@ namespace sweetshops.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("GroupDishId");
+
+                    b.HasIndex("GroupDishId1");
 
                     b.ToTable("Dishes");
                 });
@@ -102,44 +110,49 @@ namespace sweetshops.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("DishsGroup");
+                    b.ToTable("GroupDishes");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            Name = "Мучное"
-                        },
-                        new
-                        {
-                            Id = 2,
                             Name = "Сладкое"
                         },
                         new
                         {
-                            Id = 3,
+                            Id = 2,
                             Name = "Мясное"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Мучное"
                         });
                 });
 
             modelBuilder.Entity("sweetshops.Model.Dish", b =>
                 {
                     b.HasOne("sweetshops.Model.GroupDish", "GroupDish")
-                        .WithMany("Dishs")
+                        .WithMany("Dishes")
                         .HasForeignKey("GroupDishId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("sweetshops.Model.GroupDish", null)
+                        .WithMany("Dishs")
+                        .HasForeignKey("GroupDishId1");
 
                     b.Navigation("GroupDish");
                 });
 
             modelBuilder.Entity("sweetshops.Model.GroupDish", b =>
                 {
+                    b.Navigation("Dishes");
+
                     b.Navigation("Dishs");
                 });
 #pragma warning restore 612, 618

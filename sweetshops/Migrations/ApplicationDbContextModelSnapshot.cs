@@ -70,10 +70,10 @@ namespace sweetshops.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DishsId")
+                    b.Property<int>("GroupDishId")
                         .HasColumnType("int");
 
-                    b.Property<int>("GroupDishId")
+                    b.Property<int?>("GroupDishId1")
                         .HasColumnType("int");
 
                     b.Property<string>("Ingredients")
@@ -87,14 +87,13 @@ namespace sweetshops.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DishsId");
-
                     b.HasIndex("GroupDishId");
+
+                    b.HasIndex("GroupDishId1");
 
                     b.ToTable("Dishes");
                 });
@@ -112,30 +111,45 @@ namespace sweetshops.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DishsGroup");
+                    b.ToTable("GroupDishes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Сладкое"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Мясное"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Мучное"
+                        });
                 });
 
             modelBuilder.Entity("sweetshops.Model.Dish", b =>
                 {
-                    b.HasOne("sweetshops.Model.Dish", "Dishs")
-                        .WithMany()
-                        .HasForeignKey("DishsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("sweetshops.Model.GroupDish", "GroupDish")
-                        .WithMany("Dishs")
+                        .WithMany("Dishes")
                         .HasForeignKey("GroupDishId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Dishs");
+                    b.HasOne("sweetshops.Model.GroupDish", null)
+                        .WithMany("Dishs")
+                        .HasForeignKey("GroupDishId1");
 
                     b.Navigation("GroupDish");
                 });
 
             modelBuilder.Entity("sweetshops.Model.GroupDish", b =>
                 {
+                    b.Navigation("Dishes");
+
                     b.Navigation("Dishs");
                 });
 #pragma warning restore 612, 618

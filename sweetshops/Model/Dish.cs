@@ -14,8 +14,7 @@ namespace sweetshops.Model
         [JsonIgnore]
         public int CookingTimeMinutes { get; set; }
 
-
-        public string Title { get; set; }
-        public Dish Dishs {  get; set; }
+        public int GroupDishId { get; set; }
+        public string? Title { get; set; }
     }
 }

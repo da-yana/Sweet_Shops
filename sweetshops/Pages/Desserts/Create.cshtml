@@ -24,30 +24,36 @@
                             <span asp-validation-for="Dish.DishName" class="text-danger"></span>
                         </div>
 
+                        <!-- ВОТ СЮДА ВСТАВЛЕН ВЫПАДАЮЩИЙ СПИСОК (заменил старое поле) -->
                         <div class="mb-3">
-                            <label asp-for="Dish.GroupDish.Name" class="form-label">Группа блюд</label>
-                            <input asp-for="Dish.GroupDish.Name" class="form-control" />
+                            <label asp-for="Dish.GroupDishId" class="form-label">Группа блюд</label>
+                            <select asp-for="Dish.GroupDishId" asp-items="Model.GroupDishesList" class="form-select">
+                                <option value="">-- Выберите группу --</option>
+                            </select>
+                            <span asp-validation-for="Dish.GroupDishId" class="text-danger"></span>
                         </div>
 
                         <div class="mb-3">
                             <label asp-for="Dish.Price" class="form-label">Цена</label>
-                            <input asp-for="Dish.Price" type="number" class="form-control" />
+                            <input asp-for="Dish.Price" type="number" step="0.01" class="form-control" />
+                            <span asp-validation-for="Dish.Price" class="text-danger"></span>
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="Dish.CookingTimeMinutes" class="form-label">Время приготовления(в минутах)</label>
+                            <label asp-for="Dish.CookingTimeMinutes" class="form-label">Время приготовления (в минутах)</label>
                             <input asp-for="Dish.CookingTimeMinutes" type="number" class="form-control" />
+                            <span asp-validation-for="Dish.CookingTimeMinutes" class="text-danger"></span>
                         </div>
 
                         <div class="mb-3">
                             <label asp-for="Dish.DescriptionDish" class="form-label">Описание блюда</label>
-                            <input asp-for="Dish.DescriptionDish" class="form-control" />
+                            <textarea asp-for="Dish.DescriptionDish" class="form-control" rows="3"></textarea>
                             <span asp-validation-for="Dish.DescriptionDish" class="text-danger"></span>
                         </div>
 
                         <div class="mb-3">
                             <label asp-for="Dish.Ingredients" class="form-label">Ингредиенты</label>
-                            <input asp-for="Dish.Ingredients" class="form-control" />
+                            <textarea asp-for="Dish.Ingredients" class="form-control" rows="3"></textarea>
                             <span asp-validation-for="Dish.Ingredients" class="text-danger"></span>
                         </div>
 

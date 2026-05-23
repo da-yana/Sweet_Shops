@@ -19,11 +19,18 @@ namespace sweetshops.Pages
 
         public void OnGet()
         {
-            var dish = new Dish { Title = "Clean Code", Dishs = new() { Name = "Ïóøêèí" } };
+            // ИСПРАВЛЕННЫЙ КОД - убираем ссылку на Dishs
+            var dish = new Dish
+            {
+                Title = "Clean Code",
+                DishName = "Название блюда",  // добавьте обязательные поля
+                GroupDishId = 1  // например, ссылка на группу "Сладкое"
+            };
+
             _context.Dishes.Add(dish);
             _context.SaveChanges();
 
-            var Dishs = _context.Dishes.ToList();
+            var dishes = _context.Dishes.ToList();  // переименовал Dishs → dishes
         }
     }
 }
