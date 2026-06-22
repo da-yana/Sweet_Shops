@@ -1,0 +1,30 @@
+﻿@page
+@model sweetshops.Pages.Account.User.DetailsModel
+@{
+}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-4">
+                    <h2 class="h3 card-title mb-4 text-primary">Детали пользователя</h2>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Email адрес</label>
+                        <div class="form-control-plaintext">@Model.User.Email</div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">Роль доступа</label>
+                        <div class="form-control-plaintext">@Model.User.Role</div>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <a asp-page="Edit" asp-route-id="@Model.User.Id" class="btn btn-primary rounded-pill px-4">Редактировать</a>
+                        <a asp-page="Index" class="btn btn-outline-secondary rounded-pill px-4">Назад к списку</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
