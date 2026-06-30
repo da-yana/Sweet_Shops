@@ -2,40 +2,126 @@
 @model sweetshops.Pages.Clients.DeleteModel
 @{
 }
-<div class="row justify-content-center">
-    <div class="col-md-6 col-lg-5">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-        <div class="card border-danger shadow-sm mt-4">
-            <div class="card-header bg-danger text-white">
-                <h5 class="mb-0">Подтверждение удаления</h5>
-            </div>
-
-            <div class="card-body">
-                <p class="mb-3">
-                    Вы действительно хотите удалить клиента:
-                </p>
-
-                <div class="alert alert-light border">
-                    <strong>@Model.Clients.LastName</strong><br />
-                    <small class="text-muted">@Model.Clients.Phone</small>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <!-- Карточка подтверждения удаления -->
+            <div class="card border-danger shadow-lg mt-4 rounded-4">
+                <div class="card-header bg-danger text-white rounded-top-4 py-3">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-exclamation-triangle-fill fs-3 me-2"></i>
+                        <h5 class="mb-0 fw-bold">Подтверждение удаления</h5>
+                    </div>
                 </div>
 
-                <form method="post">
-                    <input type="hidden" asp-for="Clients.Id" />
-
-                    <div class="d-flex justify-content-between">
-                        <a asp-page="Index" class="btn btn-outline-secondary">
-                            Отмена
-                        </a>
-
-                        <button type="submit" class="btn btn-danger">
-                            Удалить
-                        </button>
+                <div class="card-body p-4">
+                    <!-- Предупреждение -->
+                    <div class="alert alert-warning border-warning mb-4">
+                        <i class="bi bi-info-circle-fill me-2"></i>
+                        <strong>Внимание!</strong> Это действие нельзя отменить.
                     </div>
-                </form>
+
+                    <p class="mb-3 text-secondary">
+                        Вы действительно хотите удалить клиента:
+                    </p>
+
+                    <!-- Карточка клиента -->
+                    <div class="alert alert-light border shadow-sm mb-4 p-3 rounded-3">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="bi bi-person-circle fs-4 me-2 text-primary"></i>
+                            <strong class="fs-5 text-dark">@Model.Clients.LastName</strong>
+                        </div>
+
+                        <div class="ms-4 ps-1">
+                            <div class="mb-2">
+                                <i class="bi bi-telephone-fill text-muted me-2"></i>
+                                <span class="text-muted">@Model.Clients.Phone</span>
+                            </div>
+
+                            <!-- Исправлено: NumberOrder - это int, не используем ?. -->
+                            <div class="mb-2">
+                                <i class="bi bi-table text-muted me-2"></i>
+                                <span class="text-muted">Столик №@Model.Clients.NumberOrder</span>
+                            </div>
+
+                            <!-- Исправлено: VisitDate - это DateTime, не используем HasValue и Value -->
+                            <div>
+                                <i class="bi bi-calendar text-muted me-2"></i>
+                                <span class="text-muted">@Model.Clients.VisitDate.ToString("dd.MM.yyyy")</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form method="post">
+                        <input type="hidden" asp-for="Clients.Id" />
+
+                        <div class="d-flex gap-3">
+                            <a asp-page="Index" class="btn btn-outline-secondary btn-lg flex-grow-1">
+                                <i class="bi bi-arrow-left"></i> Отмена
+                            </a>
+
+                            <button type="submit" class="btn btn-danger btn-lg flex-grow-1">
+                                <i class="bi bi-trash3"></i> Удалить
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
 
+            <!-- Дополнительная информация -->
+            <div class="text-center mt-3">
+                <small class="text-muted">
+                    <i class="bi bi-shield-exclamation"></i>
+                    Удаленные данные невозможно восстановить
+                </small>
+            </div>
         </div>
-
     </div>
 </div>
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+<style>
+    /* Кастомные стили */
+    .card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15) !important;
+        }
+
+    .btn {
+        transition: all 0.2s ease;
+    }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            filter: brightness(0.98);
+        }
+
+    .btn-danger:hover {
+        background-color: #dc3545;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+    }
+
+    .btn-outline-secondary:hover {
+        transform: translateY(-2px);
+    }
+</style>
+
+<!-- Дополнительный JavaScript для подтверждения -->
+<script>
+    // Предупреждение перед отправкой формы
+    document.querySelector('form')?.addEventListener('submit', function(e) {
+        const confirmed = confirm('Вы уверены, что хотите удалить этого клиента? Это действие нельзя отменить.');
+        if (!confirmed) {
+            e.preventDefault();
+        }
+    });
+</script>

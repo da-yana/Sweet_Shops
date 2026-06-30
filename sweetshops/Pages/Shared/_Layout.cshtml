@@ -1,55 +1,510 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="ru" data-bs-theme="light">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - sweetshops</title>
-    <script type="importmap"></script>
+    <title>@ViewData["Title"] - Dolce Vita</title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/sweetshops.styles.css" asp-append-version="true" />
+
+    <style>
+        /* ============================================
+               ROOT VARIABLES
+            ============================================ */
+        :root {
+            --primary: #c0392b;
+            --primary-light: #e74c3c;
+            --primary-dark: #922b21;
+            --secondary: #f39c12;
+            --accent: #e67e22;
+            --bg-light: #fef9f4;
+            --bg-dark: #1a0e0c;
+            --text-dark: #2c1810;
+            --text-light: #f5ebe6;
+            --gold: #f1c40f;
+            --cream: #fdf2e9;
+            --shadow: 0 8px 32px rgba(192, 57, 43, 0.15);
+            --radius: 20px;
+        }
+
+        [data-bs-theme="dark"] {
+            --bg-light: #1a0e0c;
+            --text-dark: #f5ebe6;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        /* ============================================
+               GLOBAL STYLES
+            ============================================ */
+        * {
+            transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
+        }
+
+        /* ============================================
+               SCROLLBAR
+            ============================================ */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-light);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+        }
+
+        /* ============================================
+               NAVBAR
+            ============================================ */
+        .navbar-custom {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 2px 30px rgba(0, 0, 0, 0.06);
+            border-bottom: 2px solid rgba(192, 57, 43, 0.1);
+            padding: 14px 0;
+        }
+
+        [data-bs-theme="dark"] .navbar-custom {
+            background: rgba(26, 14, 12, 0.92);
+            border-bottom-color: rgba(255, 255, 255, 0.06);
+        }
+
+        .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        .navbar-brand i {
+            -webkit-text-fill-color: initial;
+            color: var(--primary);
+            margin-right: 8px;
+            font-size: 1.6rem;
+        }
+
+        .nav-link-custom {
+            font-weight: 600;
+            color: var(--text-dark) !important;
+            padding: 8px 20px !important;
+            border-radius: 50px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link-custom:hover {
+            background: rgba(192, 57, 43, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .nav-link-custom i {
+            margin-right: 6px;
+            color: var(--primary);
+        }
+
+        .nav-link-custom.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: #fff !important;
+        }
+
+        .nav-link-custom.active i {
+            color: #fff !important;
+        }
+
+        /* ============================================
+               BUTTONS
+            ============================================ */
+        .btn-primary-custom {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            padding: 10px 28px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(192, 57, 43, 0.3);
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(192, 57, 43, 0.4);
+            color: #fff;
+        }
+
+        .btn-secondary-custom {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            font-weight: 600;
+            padding: 10px 28px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary-custom:hover {
+            background: var(--primary);
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(192, 57, 43, 0.25);
+        }
+
+        /* ============================================
+               THEME TOGGLE
+            ============================================ */
+        .theme-toggle-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            background: transparent;
+            color: var(--primary);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .theme-toggle-btn:hover {
+            background: var(--primary);
+            color: #fff;
+            transform: rotate(30deg);
+        }
+
+        /* ============================================
+               USER AVATAR / DROPDOWN
+            ============================================ */
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .dropdown-menu-custom {
+            background: var(--bg-light);
+            border: 1px solid rgba(192, 57, 43, 0.1);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 8px;
+        }
+
+        .dropdown-menu-custom .dropdown-item {
+            border-radius: 12px;
+            padding: 10px 16px;
+            transition: all 0.3s ease;
+            color: var(--text-dark);
+        }
+
+        .dropdown-menu-custom .dropdown-item:hover {
+            background: rgba(192, 57, 43, 0.08);
+        }
+
+        .dropdown-menu-custom .dropdown-item i {
+            width: 20px;
+            color: var(--primary);
+        }
+
+        /* ============================================
+               FOOTER
+            ============================================ */
+        .footer-custom {
+            background: linear-gradient(135deg, #2c1810, #1a0e0c);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 40px 0 25px;
+            margin-top: 40px;
+            border-top: 3px solid var(--secondary);
+        }
+
+        .footer-custom a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-custom a:hover {
+            color: var(--secondary);
+        }
+
+        .footer-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #fff;
+        }
+
+        .footer-brand i {
+            color: var(--secondary);
+            margin-right: 8px;
+        }
+
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+            transition: all 0.3s ease;
+            margin: 0 4px;
+        }
+
+        .social-icon:hover {
+            background: var(--secondary);
+            color: #1a0e0c;
+            transform: translateY(-3px);
+        }
+
+        /* ============================================
+               CARDS
+            ============================================ */
+        .card-sweet {
+            background: var(--bg-light);
+            border: 1px solid rgba(192, 57, 43, 0.08);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+        }
+
+        .card-sweet:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 48px rgba(192, 57, 43, 0.18);
+        }
+
+        .card-sweet .card-img-top {
+            height: 220px;
+            object-fit: cover;
+        }
+
+        /* ============================================
+               RESPONSIVE
+            ============================================ */
+        @@media (max-width: 768px) {
+            .navbar-brand {
+                font-size: 1.4rem;
+            }
+            .footer-custom .row > div {
+                text-align: center !important;
+                margin-bottom: 12px;
+            }
+            .btn-primary-custom,
+            .btn-secondary-custom {
+                padding: 8px 18px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- ============================================
+    NAVBAR
+    ============================================ -->
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-lg navbar-custom">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">sweetshops</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand" asp-page="/Index">
+                    <i class="fas fa-cake"></i>Dolce Vita
+                </a>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                            <a class="nav-link nav-link-custom" asp-page="/Index">
+                                <i class="fas fa-home"></i>Главная
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-page="/Desserts/Index">Десерты</a>
+                            <a class="nav-link nav-link-custom" asp-page="/Desserts/Index">
+                                <i class="fas fa-cookie-bite"></i>Десерты
+                            </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-custom" asp-page="/Clients/Index">
+                                <i class="fas fa-users"></i>Клиенты
+                            </a>
+                        </li>
+                        @if (User.Identity?.IsAuthenticated == true && User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link nav-link-custom" asp-page="/Account/User/Index">
+                                    <i class="fas fa-user-shield"></i>Админ
+                                </a>
+                            </li>
+                        }
+                    </ul>
+
+                    <ul class="navbar-nav align-items-center gap-2">
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="user-avatar">@User.Identity.Name?.Substring(0, 1).ToUpper()</span>
+                                    <span class="d-none d-md-inline fw-semibold">@User.Identity.Name</span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-custom dropdown-menu-end">
+                                    <li>
+                                        <a class="dropdown-item" asp-page="/Account/Profile">
+                                            <i class="fas fa-user-circle"></i> Профиль
+                                        </a>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="dropdown-item text-danger" asp-page="/Account/Logout">
+                                            <i class="fas fa-sign-out-alt"></i> Выйти
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="btn-secondary-custom" asp-page="/Account/Login">
+                                    <i class="fas fa-sign-in-alt"></i> Вход
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn-primary-custom" asp-page="/Account/Register">
+                                    <i class="fas fa-user-plus"></i> Регистрация
+                                </a>
+                            </li>
+                        }
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-page="/Clients/Index">Клиенты</a>
+                            <button class="theme-toggle-btn" onclick="toggleTheme()" aria-label="Переключить тему">
+                                <i id="themeIcon" class="fas fa-moon"></i>
+                            </button>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
+    <!-- ============================================
+    MAIN CONTENT
+    ============================================ -->
+    <main>
         <div class="container">
-            &copy; 2026 - sweetshops - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            @RenderBody()
+        </div>
+    </main>
+
+    <!-- ============================================
+    FOOTER
+    ============================================ -->
+    <footer class="footer-custom">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-4 text-center text-md-start mb-3 mb-md-0">
+                    <div class="footer-brand">
+                        <i class="fas fa-cake"></i>Dolce Vita
+                    </div>
+                    <p class="text-white-50 small mt-1">Сладости с любовью ❤️</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <div class="d-flex justify-content-center gap-2">
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-telegram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-vk"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4 text-center text-md-end">
+                    <small class="text-white-50">
+                        &copy; @DateTime.Now.Year — Все права защищены
+                    </small>
+                    <br>
+                    <a asp-page="/Privacy" class="text-white-50 text-decoration-none small">
+                        <i class="fas fa-lock me-1"></i>Конфиденциальность
+                    </a>
+                </div>
+            </div>
         </div>
     </footer>
 
+    <!-- ============================================
+    SCRIPTS
+    ============================================ -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>
+        // ============================================
+        // THEME TOGGLE
+        // ============================================
+        function applyTheme(theme) {
+            document.documentElement.setAttribute("data-bs-theme", theme);
+            localStorage.setItem("theme", theme);
+
+            const icon = document.getElementById("themeIcon");
+            if (icon) {
+                icon.className = theme === "dark" ? "fas fa-sun" : "fas fa-moon";
+            }
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute("data-bs-theme");
+            const newTheme = currentTheme === "dark" ? "light" : "dark";
+            applyTheme(newTheme);
+        }
+
+        // Apply saved theme on load
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme) {
+            applyTheme(savedTheme);
+        } else {
+            const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+            applyTheme(prefersDark ? "dark" : "light");
+        }
+
+        // Listen for system theme changes
+        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", e => {
+            if (!localStorage.getItem("theme")) {
+                applyTheme(e.matches ? "dark" : "light");
+            }
+        });
+    </script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

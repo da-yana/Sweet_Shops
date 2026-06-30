@@ -1,11 +1,15 @@
+using sweetshops.Data;
+using sweetshops.Model;
+using sweetshops.Model.AuthApp;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using sweetshops.Data;
-using sweetshops.Model;
 
-namespace sweetshops.Pages.Desserts
+
+namespace sweetshops.Pages.Account.User
 {
+    [Authorize(Roles = "Admin")]
     public class IndexModel : PageModel
     {
         private readonly ApplicationDbContext _context;
@@ -14,13 +18,12 @@ namespace sweetshops.Pages.Desserts
         {
             _context = context;
         }
-        public List<Dish> Dishs { get; set; }
 
-        public void OnGet()
+        public IList<AuthUser> Users { get; set; }
+
+        public async Task OnGetAsync()
         {
-            Dishs = _context.Dishes
-                .Include(b => b.GroupDish)
-                .ToList();
+            Users = await _context.AuthUsers.ToListAsync();
         }
     }
 }

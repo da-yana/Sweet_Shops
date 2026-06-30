@@ -20,6 +20,6 @@ namespace sweetshops.Pages.Clients
         {
             Clients = _context.Clients.ToList();
         }
-    }
+    } 
 }
 
